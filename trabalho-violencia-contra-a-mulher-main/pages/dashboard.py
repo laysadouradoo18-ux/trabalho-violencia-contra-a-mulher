@@ -79,7 +79,7 @@ st.markdown("""
 # =====================================================
 
 try:
-    df = pd.read_excel("violencia_mulher_piaui.xlsx")
+    df = pd.read_excel("../violencia_mulher_piaui.xlsx.xlsx")
 
     # AJUSTAR NOMES DAS COLUNAS
     df.columns = [
