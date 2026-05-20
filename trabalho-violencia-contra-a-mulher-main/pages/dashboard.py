@@ -79,7 +79,16 @@ st.markdown("""
 # =====================================================
 
 try:
-    df = pd.read_excel("../violencia_mulher_piaui.xlsx.xlsx")
+    df = pd.read_excel("../violencia_mulher_piaui.xlsx.xlsx")]
+arquivo = "../violencia_mulher_piaui.xlsx"
+
+if os.path.exists(arquivo):
+
+    df = pd.read_excel(arquivo)
+
+else:
+
+    st.error(f"Arquivo não encontrado: {arquivo}")
 
     # AJUSTAR NOMES DAS COLUNAS
     df.columns = [
