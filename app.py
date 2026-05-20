@@ -1,20 +1,18 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
 
-# =====================================================
+# =========================================================
 # CONFIGURAÇÃO DA PÁGINA
-# =====================================================
+# =========================================================
 
 st.set_page_config(
-    page_title="Violência Contra a Mulher no Piauí",
+    page_title="Landing Page - Violência Contra a Mulher",
     page_icon="📊",
     layout="wide"
 )
 
-# =====================================================
-# ESTILO CSS
-# =====================================================
+# =========================================================
+# CSS PERSONALIZADO
+# =========================================================
 
 st.markdown("""
 <style>
@@ -23,203 +21,219 @@ st.markdown("""
     background-color: #f5f7fa;
 }
 
+/* HERO */
+
 .hero {
     background: linear-gradient(135deg, #8e44ad, #e91e63);
-    padding: 50px;
-    border-radius: 20px;
-    color: white;
+    padding: 80px 40px;
+    border-radius: 25px;
     text-align: center;
-    margin-bottom: 30px;
+    color: white;
+    margin-bottom: 50px;
 }
 
 .hero h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
+    font-size: 60px;
+    margin-bottom: 20px;
 }
 
 .hero p {
-    font-size: 20px;
+    font-size: 22px;
+    max-width: 900px;
+    margin: auto;
+    line-height: 1.8;
 }
 
-.metric-card {
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
+/* BOTÃO */
+
+div.stButton > button {
+    background-color: white;
+    color: #8e44ad;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: 0.3s;
 }
+
+div.stButton > button:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+}
+
+/* CARDS */
+
+.card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    height: 100%;
+}
+
+.card h3 {
+    color: #8e44ad;
+    margin-bottom: 15px;
+}
+
+/* SEÇÕES */
 
 .section-title {
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    text-align: center;
+    font-size: 38px;
     color: #8e44ad;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+    color: #777;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================================
+# =========================================================
 # HERO SECTION
-# =====================================================
+# =========================================================
 
 st.markdown("""
 <div class="hero">
+
     <h1>📊 Violência Contra a Mulher no Piauí</h1>
+
     <p>
-        Dashboard interativo para análise de feminicídios,
-        violência doméstica, denúncias e medidas protetivas.
+        Plataforma interativa para análise de dados sobre violência doméstica,
+        feminicídios, denúncias e medidas protetivas no estado do Piauí.
     </p>
+
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================================
-# LEITURA DOS DADOS
-# =====================================================
+# =========================================================
+# BOTÃO DASHBOARD
+# =========================================================
 
-try:
-    df = pd.read_excel("violencia_mulher_piaui.xlsx.xlsx")
-
-    # AJUSTAR NOMES DAS COLUNAS
-    df.columns = [
-        "Ano",
-        "Cidade",
-        "Feminicidios",
-        "Violencia_Domestica",
-        "Medidas_Protetivas",
-        "Denuncias_180",
-        "BO_Registrados"
-    ]
-
-except Exception as e:
-    st.error(f"Erro ao carregar o arquivo Excel: {e}")
-    st.stop()
-
-# =====================================================
-# SIDEBAR
-# =====================================================
-
-st.sidebar.title("🔎 Filtros")
-
-anos = st.sidebar.multiselect(
-    "Selecione o Ano",
-    options=df["Ano"].unique(),
-    default=df["Ano"].unique()
-)
-
-df_filtrado = df[df["Ano"].isin(anos)]
-
-# =====================================================
-# MÉTRICAS
-# =====================================================
-
-st.markdown(
-    '<div class="section-title">📌 Indicadores Gerais</div>',
-    unsafe_allow_html=True
-)
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.metric(
-        "Violência Doméstica",
-        int(df_filtrado["Violencia_Domestica"].sum())
-    )
+col1, col2, col3 = st.columns([1,2,1])
 
 with col2:
-    st.metric(
-        "Feminicídios",
-        int(df_filtrado["Feminicidios"].sum())
-    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if st.button("🚀 Acessar Dashboard"):
+
+        st.switch_page("pages/dashboard.py")
+
+# =========================================================
+# SOBRE O PROJETO
+# =========================================================
+
+st.markdown(
+    '<div class="section-title">📌 Sobre o Projeto</div>',
+    unsafe_allow_html=True
+)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+
+    st.markdown("""
+    <div class="card">
+        <h3>📈 Dados Estatísticos</h3>
+        <p>
+            Visualize informações sobre violência doméstica,
+            feminicídios e denúncias registradas.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+
+    st.markdown("""
+    <div class="card">
+        <h3>🛡️ Medidas Protetivas</h3>
+        <p>
+            Acompanhe indicadores de proteção às mulheres
+            em diferentes cidades do estado.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
-    st.metric(
-        "Denúncias 180",
-        int(df_filtrado["Denuncias_180"].sum())
-    )
 
-with col4:
-    st.metric(
-        "BO Registrados",
-        int(df_filtrado["BO_Registrados"].sum())
-    )
+    st.markdown("""
+    <div class="card">
+        <h3>📊 Dashboard Interativo</h3>
+        <p>
+            Explore gráficos dinâmicos desenvolvidos com
+            Plotly, Python e Streamlit.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# =====================================================
-# GRÁFICO 1
-# =====================================================
+# =========================================================
+# OBJETIVO
+# =========================================================
+
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown(
-    '<div class="section-title">📈 Violência Doméstica por Cidade</div>',
+    '<div class="section-title">🎯 Objetivo da Plataforma</div>',
     unsafe_allow_html=True
 )
 
-grafico1 = px.bar(
-    df_filtrado,
-    x="Cidade",
-    y="Violencia_Domestica",
-    color="Cidade",
-    text_auto=True
-)
+st.info("""
+Esta plataforma foi criada para transformar dados públicos em informações visuais,
+facilitando análises, estudos acadêmicos e apoio à tomada de decisões relacionadas
+ao combate à violência contra a mulher.
+""")
 
-st.plotly_chart(grafico1, use_container_width=True)
+# =========================================================
+# TECNOLOGIAS
+# =========================================================
 
-# =====================================================
-# GRÁFICO 2
-# =====================================================
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown(
-    '<div class="section-title">⚠️ Feminicídios por Cidade</div>',
+    '<div class="section-title">⚙️ Tecnologias Utilizadas</div>',
     unsafe_allow_html=True
 )
 
-grafico2 = px.pie(
-    df_filtrado,
-    names="Cidade",
-    values="Feminicidios",
-    hole=0.5
-)
+tec1, tec2, tec3, tec4 = st.columns(4)
 
-st.plotly_chart(grafico2, use_container_width=True)
+with tec1:
+    st.success("🐍 Python")
 
-# =====================================================
-# GRÁFICO 3
-# =====================================================
+with tec2:
+    st.success("⚡ Streamlit")
 
-st.markdown(
-    '<div class="section-title">📞 Denúncias 180 por Ano</div>',
-    unsafe_allow_html=True
-)
+with tec3:
+    st.success("📊 Plotly")
 
-grafico3 = px.line(
-    df_filtrado,
-    x="Ano",
-    y="Denuncias_180",
-    markers=True
-)
+with tec4:
+    st.success("📁 Excel")
 
-st.plotly_chart(grafico3, use_container_width=True)
-
-# =====================================================
-# TABELA
-# =====================================================
-
-st.markdown(
-    '<div class="section-title">📋 Base de Dados</div>',
-    unsafe_allow_html=True
-)
-
-st.dataframe(df_filtrado, use_container_width=True)
-
-# =====================================================
-# RODAPÉ
-# =====================================================
+# =========================================================
+# FOOTER
+# =========================================================
 
 st.markdown("""
-<hr>
+<div class="footer">
 
-<center>
-    <h4>Projeto Streamlit • Violência Contra a Mulher no Piauí</h4>
-    <p>Desenvolvido com Python, Plotly e Streamlit</p>
-</center>
+    <hr>
+
+    <h4>Projeto • Violência Contra a Mulher no Piauí</h4>
+
+    <p>
+        Desenvolvido com Streamlit, Python e Plotly
+    </p>
+
+</div>
 """, unsafe_allow_html=True)
