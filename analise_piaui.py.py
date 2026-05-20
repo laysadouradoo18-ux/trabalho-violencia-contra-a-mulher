@@ -8,7 +8,7 @@ st.set_page_config(page_title="Violência Contra a Mulher", layout="wide")
 st.title("📊 Violência Contra a Mulher no Piauí")
 
 # LER O EXCEL
-df = pd.read_excel("violencia_mulher_piaui.xlsx")
+df = pd.read_excel("violencia_mulher_piaui.xlsx.xlsx")
 
 # MOSTRAR NOMES DAS COLUNAS
 st.write("Colunas do Excel:")
